@@ -83,187 +83,188 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
         
         # When cano1 is ns
         if cano1 == 'ns':
-            # if var2 is north of var1 then cano2 must be ('n', 'ns', 'ne', 'nw')
+            # if var2 is
+            #  north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'ns', 'ne', 'nw'] and color1 != color2:
+                if cano2 not in ['s', 'ns', 'ne', 'nw'] and color1 != color2:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['n', 's', 'ns', 'ne', 'se', 'w']:
+                if cano2 not in ['s', 'n', 'ns', 'ne', 'se', 'e']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'se', 'sw', 'ns')
+            # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'ns', 'se', 'sw']:
+                if cano2 not in ['n', 'ns', 'se', 'sw']:
                     return False  
-            # if var2 is west of var1 then cano2 must be ('n', 's', 'ns', 'nw', 'sw')
+            # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['n', 's', 'ns', 'nw', 'sw', 'e'] and color1 != color2:
+                if cano2 not in ['s', 'n', 'ns', 'nw', 'sw', 'w'] and color1 != color2:
                     return False
         # When cano1 is we
         if cano1 == 'we':
-            # if var2 is north of var1 then cano2 must be ('s', 'e', 'w', 'we', 'se', 'sw)
+            # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw)
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('e', 'we', 'nw', 'sw')
+            # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['e', 'we', 'nw', 'sw'] and color1 != color2:
+                if cano2 not in ['w', 'we', 'nw', 'sw'] and color1 != color2:
                     return False
-            # if var2 is south of var1 then cano2 must be ('e', 'w', 'we', 'ne', 'nw')
+            # if var2 is south of var1 then cano2 must be ('w', 'e', 'we', 'ne', 'nw')
             if (var2Line > var1Line) and (var2Col == var1Col):
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('w', 'we', 'ne', 'se')
+            # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col) and color1 != color2:
-                if cano2 not in ['w', 'we', 'ne', 'se']:
+                if cano2 not in ['e', 'we', 'ne', 'se']:
                     return False
         # When cano1 is ne
         if cano1 == 'ne':
-            # if var2 is north of var1 then cano2 must be ('s', 'e', 'w', 'we', 'se', 'sw')
+            # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('e', 'we', 'nw', 'sw')
+            # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col) and color1 != color2:
-                if cano2 not in ['e', 'we', 'nw', 'sw']:
+                if cano2 not in ['w', 'we', 'nw', 'sw']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'ns', 'se', 'sw')
+            # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
             if (var2Line > var1Line) and (var2Col == var1Col) and color1 != color2:
-                if cano2 not in ['s', 'ns', 'se', 'sw']:
+                if cano2 not in ['n', 'ns', 'se', 'sw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('n', 's', 'ns', 'nw', 'sw')
+            # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['e', 'n', 's', 'ns', 'nw', 'sw']:
+                if cano2 not in ['w', 's', 'n', 'ns', 'nw', 'sw']:
                     return False
         # When cano1 is nw
         if cano1 == 'nw':
-            # if var2 is north of var1 then cano2 must be ('e', 'w', 'we', 'se', 'sw')
+            # if var2 is north of var1 then cano2 must be ('w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ns', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ns', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['w', 'n', 's', 'ns', 'ne', 'se']:
+                if cano2 not in ['e', 's', 'n', 'ns', 'ne', 'se']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'ns', 'se', 'sw')
+            # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
             if (var2Line > var1Line) and (var2Col == var1Col):
-                if cano2 not in ['s', 'ns', 'se', 'sw'] and color1 != color2:
+                if cano2 not in ['n', 'ns', 'se', 'sw'] and color1 != color2:
                     return False
-            # if var2 is west of var1 then cano2 must be ('w', 'we', 'ne', 'se')
+            # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['w', 'we', 'ne', 'se'] and color1 != color2:
+                if cano2 not in ['e', 'we', 'ne', 'se'] and color1 != color2:
                     return False
         # When cano1 is se
         if cano1 == 'se':
-            # if var2 is north of var1 then cano2 must be ('n', 'ns', 'ne', 'nw')
+            # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col):
-                if cano2 not in ['n', 'ns', 'ne', 'nw'] and color1 != color2:
+                if cano2 not in ['s', 'ns', 'ne', 'nw'] and color1 != color2:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['e', 'we', 'nw', 'sw'] and color1 != color2:
+                if cano2 not in ['w', 'we', 'nw', 'sw'] and color1 != color2:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'se', 'sw', 'ns')
+            # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('n', 's', 'ns', 'nw', 'sw')
+            # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['n', 's', 'e','ns', 'nw', 'sw']:
+                if cano2 not in ['s', 'n', 'w','ns', 'nw', 'sw']:
                     return False
         # When cano1 is sw
         if cano1 == 'sw':
-            # if var2 is north of var1 then cano2 must be ('n', 'ns', 'ne', 'nw')
+            # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'ns', 'ne', 'nw'] and color1 != color2:
+                if cano2 not in ['s', 'ns', 'ne', 'nw'] and color1 != color2:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['n', 's', 'w', 'ns', 'ne', 'se']:
+                if cano2 not in ['s', 'n', 'e', 'ns', 'ne', 'se']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'se', 'sw', 'ns')
+            # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('n', 's', 'ns', 'nw', 'sw')
+            # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['w', 'we', 'ne', 'se',] and color1 != color2:
+                if cano2 not in ['e', 'we', 'ne', 'se',] and color1 != color2:
                     return False
     
     ##  TERMINALS  ##
     elif len(cano1) == 1:
     
         # When cano1 is N
-        if cano1 == 'n':
-            # if var2 is north of var1 then cano2 must be ('s', 'e', 'w', 'we', 'se', 'sw')
+        if cano1 == 's':
+            # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('e', 'we', 'nw', 'sw')
+            # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['n', 's', 'w', 'ns', 'ne', 'es']:
+                if cano2 not in ['s', 'n', 'e', 'ns', 'ne', 'es']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('e', 'w', 'we', 'ne', 'nw')
+            # if var2 is south of var1 then cano2 must be ('w', 'e', 'we', 'ne', 'nw')
             if (var2Line > var1Line) and (var2Col == var1Col) :
                 if cano2 not in ['ns', 'se', 'sw'] and color1 != color2:
                     return False
-            # if var2 is west of var1 then cano2 must be ('w', 'we', 'ne', 'se')
+            # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['n', 's', 'e', 'ns', 'nw', 'sw']:
+                if cano2 not in ['s', 'n', 'w', 'ns', 'nw', 'sw']:
                     return False
         # When cano1 is E
-        if cano1 == 'e':
-            # if var2 is north of var1 then cano2 must be ('s', 'e', 'w', 'we', 'se', 'sw)
+        if cano1 == 'w':
+            # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw)
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('e', 'we', 'nw', 'sw')
+            # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['n', 's', 'w', 'ns', 'ne', 'se']:
+                if cano2 not in ['s', 'n', 'e', 'ns', 'ne', 'se']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('e', 'w', 'we', 'ne', 'nw')
+            # if var2 is south of var1 then cano2 must be ('w', 'e', 'we', 'ne', 'nw')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('w', 'we', 'ne', 'se')
+            # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
                 if cano2 not in ['we', 'ne', 'se'] and color1 != color2:
                     return False  
         # When cano1 is S
-        if cano1 == 's':
-            # if var2 is north of var1 then cano2 must be ('n', 'ns', 'ne', 'nw')
+        if cano1 == 'n':
+            # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
                 if cano2 not in ['ns', 'ne', 'nw'] and color1 != color2:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['n', 's', 'w', 'ns', 'ne', 'se']:
+                if cano2 not in ['s', 'n', 'e', 'ns', 'ne', 'se']:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'se', 'sw', 'ns')
+            # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('n', 's', 'ns', 'nw', 'sw')
+            # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['n', 's', 'e', 'ns', 'sw', 'nw']:
+                if cano2 not in ['s', 'n', 'w', 'ns', 'sw', 'nw']:
                     return False
         # When cano1 is W
-        if cano1 == 'w':
-            # if var2 is north of var1 then cano2 must be ('s', 'e', 'w', 'we', 'se', 'sw')
+        if cano1 == 'e':
+            # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'w', 'we', 'se', 'sw']:
+                if cano2 not in ['n', 'w', 'e', 'we', 'se', 'sw']:
                     return False
-            # if var2 is east of var1 then cano2 must be ('n', 's', 'ns', 'ne', 'se')
+            # if var2 is east of var1 then cano2 must be ('s', 'n', 'ns', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
                 if cano2 not in ['we', 'nw', 'sw'] and color1 != color2:
                     return False
-            # if var2 is south of var1 then cano2 must be ('s', 'ns', 'se', 'sw')
+            # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'e', 'w', 'we', 'ne', 'nw']:
+                if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
-            # if var2 is west of var1 then cano2 must be ('w', 'we', 'ne', 'se')
+            # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['n', 's', 'e', 'ns', 'nw', 'sw']:
+                if cano2 not in ['s', 'n', 'w', 'ns', 'nw', 'sw']:
                     return False
         return True
 
