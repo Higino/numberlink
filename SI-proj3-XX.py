@@ -86,7 +86,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
             # if var2 is
             #  north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'ns', 'se', 'sw'] and color1 != color2:
+                if cano2 not in ['s', 'ns', 'se', 'sw'] or color1 != color2:
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
@@ -98,7 +98,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False  
             # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['s', 'n', 'ns', 'nw', 'sw', 'w'] and color1 != color2:
+                if cano2 not in ['s', 'n', 'ns', 'nw', 'sw', 'w'] or color1 != color2:
                     return False
         # When cano1 is we
         if cano1 == 'we':
@@ -108,28 +108,28 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['w', 'we', 'nw', 'sw'] and color1 != color2:
+                if cano2 not in ['w', 'we', 'nw', 'sw'] or color1 != color2:
                     return False
             # if var2 is south of var1 then cano2 must be ('w', 'e', 'we', 'ne', 'nw')
             if (var2Line > var1Line) and (var2Col == var1Col):
                 if cano2 not in ['s', 'w', 'e', 'we', 'ne', 'nw']:
                     return False
             # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
-            if (var2Line == var1Line) and (var2Col < var1Col) and color1 != color2:
+            if (var2Line == var1Line) and (var2Col < var1Col) or color1 != color2:
                 if cano2 not in ['e', 'we', 'ne', 'se']:
                     return False
         # When cano1 is ne
         if cano1 == 'ne':
             # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'we', 'se', 'sw']:
+                if cano2 not in ['s', 'e', 'we', 'se', 'sw'] or color1 != color2:
                     return False
             # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
-            if (var2Line == var1Line) and (var2Col > var1Col) and color1 != color2:
+            if (var2Line == var1Line) and (var2Col > var1Col) or color1 != color2:
                 if cano2 not in ['w', 'we', 'nw', 'sw']:
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
-            if (var2Line > var1Line) and (var2Col == var1Col) and color1 != color2:
+            if (var2Line > var1Line) and (var2Col == var1Col):
                 if cano2 not in ['s', 'se', 'sw', 'w', 'e', 'we']:
                     return False
             # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
@@ -140,7 +140,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
         if cano1 == 'nw':
             # if var2 is north of var1 then cano2 must be ('w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'ns', 'se', 'sw']:
+                if cano2 not in ['s', 'ns', 'se', 'sw'] or color1 != color2:
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ns', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
@@ -148,25 +148,25 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
             if (var2Line > var1Line) and (var2Col == var1Col):
-                if cano2 not in ['e', 'w', 's', 'sw', 'se', 'we'] and color1 != color2:
+                if cano2 not in ['e', 'w', 's', 'sw', 'se', 'we']:
                     return False
             # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['e', 'we', 'ne', 'se'] and color1 != color2:
+                if cano2 not in ['e', 'we', 'ne', 'se'] or color1 != color2:
                     return False
         # When cano1 is se
         if cano1 == 'se':
             # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col):
-                if cano2 not in ['e', 'n', 'w', 'ne', 'nw', 'we'] and color1 != color2:
+                if cano2 not in ['e', 'n', 'w', 'ne', 'nw', 'we']:
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['w', 'we', 'nw', 'sw'] and color1 != color2:
+                if cano2 not in ['w', 'we', 'nw', 'sw'] or color1 != color2:
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'ne', 'nw', 'ns']:
+                if cano2 not in ['n', 'ne', 'nw', 'ns'] or color1 != color2:
                     return False
             # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
@@ -176,7 +176,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
         if cano1 == 'sw':
             # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['ne', 'we', 'ne', 'nw', 'n', 'w', 'e'] and color1 != color2:
+                if cano2 not in ['ne', 'we', 'ne', 'nw', 'n', 'w', 'e']:
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
@@ -184,11 +184,11 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['ne', 'nw', 'n', 'ns']:
+                if cano2 not in ['ne', 'nw', 'n', 'ns'] or color1 != color2:
                     return False
             # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['se', 'we', 'ne', 'e',] and color1 != color2:
+                if cano2 not in ['se', 'we', 'ne', 'e',] or color1 != color2:
                     return False
     
     ##  TERMINALS  ##
@@ -206,7 +206,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is south of var1 then cano2 must be ('w', 'e', 'we', 'ne', 'nw')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['ns', 'ne', 'nw'] and color1 != color2:
+                if cano2 not in ['ns', 'ne', 'nw'] or color1 != color2:
                     return False
             # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
@@ -228,13 +228,13 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is west of var1 then cano2 must be ('e', 'we', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['we', 'se', 'ne'] and color1 != color2:
+                if cano2 not in ['we', 'se', 'ne'] or color1 != color2:
                     return False  
         # When cano1 is S
         if cano1 == 'n':
             # if var2 is north of var1 then cano2 must be ('s', 'ns', 'ne', 'nw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['ns', 'se', 'sw'] and color1 != color2:
+                if cano2 not in ['ns', 'se', 'sw'] or color1 != color2:
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
@@ -256,7 +256,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is east of var1 then cano2 must be ('s', 'n', 'ns', 'ne', 'se')
             if (var2Line == var1Line) and (var2Col > var1Col):
-                if cano2 not in ['we', 'nw', 'sw'] and color1 != color2:
+                if cano2 not in ['we', 'nw', 'sw'] or color1 != color2:
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'ns', 'se', 'sw')
             if (var2Line > var1Line) and (var2Col == var1Col) :
