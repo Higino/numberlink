@@ -1,12 +1,8 @@
 from csp import *
-import constants as const
-from testdata import *
 
-
-""" Given functions we can use in our code """
+# Gera a variável a partir das coordenadas (x,y): V_x_y
 def gVar(x,y):
     return 'V_'+str(x)+'_'+str(y)
-
     
 def puzzle_display(puzzle):
     comp=len(puzzle)
@@ -23,7 +19,34 @@ def puzzle_resolvido(puzzle,assignment):
                 new_puzzle[l][c]=assignment[gVar(c,l)][1]
     return new_puzzle
 
+""" Constantes do jogo Numberlink """
 
+""" TIPOS DE CANOS 
+Pontas
+* n: virado para cima, norte.
+* w: virado para a esquerda, oeste.
+* e: virado para a direita, este.
+* s: virado para baixo, sul.
+* ns: cano vertical
+* we: cano horizontal
+Cotovelos
+* ne: cotovelo para cima e para a direita
+* nw: cotovelo para cima e para a esquerda
+* se: cotovelo para baixo e para a direita
+* sw: cotovelo para baixo e para a esqueda
+"""
+COTOVELOS_NORTE = ['ne', 'nw']
+COTOVELOS_SUL = ['se', 'sw']
+COTOVELOS = COTOVELOS_NORTE + COTOVELOS_SUL
+VERTICAIS = ['ns']
+HORIZONTAIS = ['we']
+ORTOGONAIS = VERTICAIS + HORIZONTAIS
+PONTAS_NORTE = ['n']
+PONTAS_SUL = ['s']
+PONTAS_ESTE = ['e']
+PONTAS_OESTE = ['w']
+PONTAS = PONTAS_NORTE + PONTAS_SUL + PONTAS_ESTE + PONTAS_OESTE
+CANOS = COTOVELOS + ORTOGONAIS + PONTAS
 
 
 def getPuzzleColors(puzzle):
@@ -40,8 +63,17 @@ def parse_domain(v, colors, aPuzzle) :
     varCol, varLine = map(int, v.split('_')[1:])
     value = aPuzzle[varLine][varCol]
     domain = []
-    validCanos = const.CANOS
+    validCanos = []
     validColors = colors
+
+    # If the value is a color, then the domain can only contain pontas of that color
+    if( value != '.' ):
+        validCanos = PONTAS
+        validColors = [value]
+    else : # If the value is a dot, then the domain can contain any color and any type of cano except pontas
+        validCanos = COTOVELOS + HORIZONTAIS + VERTICAIS
+
+        
     # Remove pontas virados a norte, cotovelos virados para cima e verticais para a primeira linha
     if varLine == 0:
         validCanos = [x for x in validCanos if x != 'n' and x != 'ne' and x != 'nw' and x != 'ns' ]
@@ -54,16 +86,8 @@ def parse_domain(v, colors, aPuzzle) :
     # Remove pontas viradas a oeste, cotovelos virados a oeste e horizontais para a primeira coluna
     if varCol == 0:
         validCanos = [x for x in validCanos if x != 'w' and x != 'nw' and x != 'sw' and x != 'we' ]
-
-    # Remove anything that is not a ponta from the domain if the value is a color and remove 
-    # any color that is not the current color
-    if( value != '.' ):
-        validCanos = [x for x in validCanos if len(x) == 1]
-        validColors = [value]
-    # Remove anything that is a ponta from the domain if the value is not ponta
-    elif( value == '.' ):
-        validCanos = [x for x in validCanos if len(x) == 2]
-
+    
+    #Now that we conputed the valid canos and colors, we can create the domain for each variable
     for color in validColors:
             for cano in validCanos:
                 domainTupple = (cano, color)
@@ -310,43 +334,20 @@ def numberLinkParsePuzzle(aPuzzle):
             neighbors[v] = parse_neighbors(v, aPuzzle)
             domains[v] = parse_domain(v, colors, aPuzzle)
 
+
+    # Ensure each varialble domain is consistent
+    for v in variables:
+        queue = [(v, Xk) for Xk in neighbors[v]]
+        while queue:
+            v1, v2 = queue.pop()
+            for v1_val in domains[v1]:
+                if( all( not constraint_function(v1, v1_val, v2, v2_val) for v2_val in domains[v2] )):
+                    domains[v1].remove(v1_val)
+                    
+
     return (variables, domains, neighbors)
 
 def CSP_numberlink( puzzle):
     variables, domains, neighbors = numberLinkParsePuzzle(puzzle)
     return CSP(variables, domains, neighbors, constraint_function)
                
-
-puzzle=[['.','.','.','.','.','.'],
-        ['.','.','.','.','.','.'],
-        ['.','.','.', 3 ,'.','.'],
-        ['.','.','.','.','.','.'],
-        ['.','.','.','.', 2 ,'.'],
-        [ 2 , 1 , 3 ,'.','.', 1 ]]
-p = CSP_numberlink(puzzle)
-r = backtracking_search(p)
-new_puzzle=puzzle_resolvido(puzzle,r)
-puzzle_display(new_puzzle)
-
-exit()
-puzzle=[['.','.','.','.','.','.'],
-        ['.','.','.','.','.','.'],
-        ['.','.','.', 3 ,'.','.'],
-        ['.','.','.','.','.','.'],
-        ['.','.','.','.', 2 ,'.'],
-        [ 2 , 1 , 3 ,'.','.', 1 ]]
-p = CSP_numberlink(puzzle)
-z=AC3(p)
-for v in sorted(p.variables):
-    print(v,':',sorted(z.curr_domains[v]))
-
-exit()
-puzzle1, puzzle1ExpectedVariables, expectedPuzzle1Domains = puzzle1TestDetails()
-puzzle_display(puzzle1)
-numberLinkCSP = CSP_numberlink(puzzle1)
-assert sorted(numberLinkCSP.variables) == sorted(puzzle1ExpectedVariables)
-for v in sorted(numberLinkCSP.variables) :
-    print("Parsed: ", v, sorted(numberLinkCSP.domains[v]))
-    print("Expecd: ", v, sorted(expectedPuzzle1Domains[v]))
-    assert sorted(numberLinkCSP.domains[v]) == sorted(expectedPuzzle1Domains[v])
-

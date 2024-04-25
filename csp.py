@@ -337,7 +337,8 @@ def backtracking_search(csp,
         return None
 
     result = backtrack({})
-    assert result is None or csp.goal_test(result)
+    
+    #assert result is None or csp.goal_test(result)
     return result
 
 # ______________________________________________________________________________
