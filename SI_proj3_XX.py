@@ -87,9 +87,24 @@ def parse_domain(v, colors, aPuzzle) :
     if varCol == 0:
         validCanos = [x for x in validCanos if x != 'w' and x != 'nw' and x != 'sw' and x != 'we' ]
     
-    #Now that we conputed the valid canos and colors, we can create the domain for each variable
-    for color in validColors:
-            for cano in validCanos:
+    north = aPuzzle[varLine-1][varCol] if varLine > 0 else None
+    south = aPuzzle[varLine+1][varCol] if varLine < len(aPuzzle) - 1 else None
+    east = aPuzzle[varLine][varCol+1] if varCol < len(aPuzzle) - 1 else None
+    west = aPuzzle[varLine][varCol-1] if varCol > 0 else None
+
+    if north != '.' and north != None:
+        validCanos = [x for x in validCanos if x != 'n']
+    if south != '.' and south != None:
+        validCanos = [x for x in validCanos if x != 's']
+    if east != '.' and east != None:
+        validCanos = [x for x in validCanos if x != 'e']
+    if west != '.' and west != None:
+        validCanos = [x for x in validCanos if x != 'w']
+
+
+    # Now that we conputed the valid canos and colors, we can create the domain for each variable
+    for color in sorted(validColors):
+            for cano in sorted(validCanos):
                 domainTupple = (cano, color)
                 domain.append(domainTupple)
     return domain
@@ -299,19 +314,19 @@ def parse_neighbors(v, aPuzzle):
     var = aPuzzle[varLine][varCol]
     # extract the value at x, y of the north, south east and west neighbour
     north = aPuzzle[varLine-1][varCol] if varLine > 0 else None
-    if( north != None ):
-        neighbors.append(f"V_{varCol}_{varLine-1}")
+    if north != None and not (north != '.' and var != '.')  :
+            neighbors.append(f"V_{varCol}_{varLine-1}")
 
     south = aPuzzle[varLine+1][varCol] if varLine < len(aPuzzle) - 1 else None
-    if( south != None ):
+    if( south != None and not(south != '.' and var != '.') ):
         neighbors.append(f"V_{varCol}_{varLine+1}")
 
     east = aPuzzle[varLine][varCol+1] if varCol < len(aPuzzle) - 1 else None
-    if( east != None ):
+    if( east != None and not(east != '.' and var != '.')):
         neighbors.append(f"V_{varCol+1}_{varLine}")
 
     west = aPuzzle[varLine][varCol-1] if varCol > 0 else None
-    if( west != None ):
+    if( west != None and not(west != '.' and var != '.')):
         neighbors.append(f"V_{varCol-1}_{varLine}")
 
     return neighbors
@@ -330,19 +345,19 @@ def numberLinkParsePuzzle(aPuzzle):
     for y in range(comp):
         for x in range(comp):
             v = f"V_{x}_{y}"
-            variables.append(v)    
-            neighbors[v] = parse_neighbors(v, aPuzzle)
+            variables.append(v)  
+            neighbors[v] = sorted(parse_neighbors(v, aPuzzle))
             domains[v] = parse_domain(v, colors, aPuzzle)
-
+            
 
     # Ensure each varialble domain is consistent
-    for v in variables:
-        queue = [(v, Xk) for Xk in neighbors[v]]
-        while queue:
-            v1, v2 = queue.pop()
-            for v1_val in domains[v1]:
-                if( all( not constraint_function(v1, v1_val, v2, v2_val) for v2_val in domains[v2] )):
-                    domains[v1].remove(v1_val)
+    #for v in variables:
+    #    queue = [(v, Xk) for Xk in neighbors[v]]
+    #    while queue:
+    #        v1, v2 = queue.pop()
+    #        for v1_val in domains[v1]:
+    #            if( all( not constraint_function(v1, v1_val, v2, v2_val) for v2_val in domains[v2] )):
+    #                domains[v1].remove(v1_val)
                     
 
     return (variables, domains, neighbors)
@@ -350,4 +365,17 @@ def numberLinkParsePuzzle(aPuzzle):
 def CSP_numberlink( puzzle):
     variables, domains, neighbors = numberLinkParsePuzzle(puzzle)
     return CSP(variables, domains, neighbors, constraint_function)
-               
+
+try:
+    puzzle=[['.','.','.','.','.','.'],
+        ['.','.','.','.','.','.'],
+        ['.','.','.', 3 ,'.','.'],
+        ['.','.','.','.','.','.'],
+        ['.','.','.','.', 2 ,'.'],
+        [ 2 , 1 , 3 ,'.','.', 1 ]]
+    p = CSP_numberlink(puzzle)
+    z=AC3(p)
+    for v in sorted(p.variables):
+        print(v,':',sorted(z.curr_domains[v]))
+except Exception as e:
+    print(repr(e))
