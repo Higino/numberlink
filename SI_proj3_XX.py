@@ -397,6 +397,24 @@ def CSP_numberlink( puzzle):
     variables, domains, neighbors = numberLinkParsePuzzle(puzzle)
     return CSP(variables, domains, neighbors, constraint_function)
 
+
+
+	
+try:
+    puzzle=[['.','.','.','.','.','.'],
+        ['.','.','.','.','.','.'],
+        ['.','.','.', 3 ,'.','.'],
+        ['.','.','.','.','.','.'],
+        ['.','.','.','.', 2 ,'.'],
+        [ 2 , 1 , 3 ,'.','.', 1 ]]
+    p = CSP_numberlink(puzzle)
+    z=AC3(p)
+    for v in sorted(p.variables):
+        print(v,':',sorted(z.curr_domains[v]))
+except Exception as e:
+    print(repr(e))
+
+    
 """
 try:
     puzzle=[['.','.','.','.','.','.'],
