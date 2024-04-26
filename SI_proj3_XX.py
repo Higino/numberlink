@@ -36,6 +36,8 @@ Cotovelos
 * sw: cotovelo para baixo e para a esqueda
 """
 COTOVELOS_NORTE = ['ne', 'nw']
+COTOVELOS_ESQUERDA = ['nw', 'sw']
+COTOVELOS_DIREITA = ['ne', 'se']
 COTOVELOS_SUL = ['se', 'sw']
 COTOVELOS = COTOVELOS_NORTE + COTOVELOS_SUL
 VERTICAIS = ['ns']
@@ -133,11 +135,11 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
                     return False
             # if var2 is south of var1 then cano2 must be ('n', 'se', 'sw', 'ns')
             if (var2Line > var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['n', 'ns', 'se', 'sw']:
+                if cano2 not in ['n', 'ns', 'ne', 'nw'] or color1 != color2 :
                     return False  
             # if var2 is west of var1 then cano2 must be ('s', 'n', 'ns', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col < var1Col):
-                if cano2 not in ['s', 'n', 'ns', 'nw', 'sw', 'w'] or color1 != color2:
+                if cano2 not in ['s', 'n', 'ns', 'nw', 'sw', 'w']:
                     return False
         # When cano1 is we
         if cano1 == 'we':
@@ -161,7 +163,7 @@ def constraint_function(var1, var1Tupple, var2, var2Tupple):
         if cano1 == 'ne':
             # if var2 is north of var1 then cano2 must be ('n', 'w', 'e', 'we', 'se', 'sw')
             if (var2Line < var1Line) and (var2Col == var1Col) :
-                if cano2 not in ['s', 'e', 'we', 'se', 'sw'] or color1 != color2:
+                if cano2 not in ['s', 'ns', 'se', 'sw'] or color1 != color2:
                     return False
             # if var2 is east of var1 then cano2 must be ('w', 'we', 'nw', 'sw')
             if (var2Line == var1Line) and (var2Col > var1Col):
@@ -362,10 +364,40 @@ def numberLinkParsePuzzle(aPuzzle):
 
     return (variables, domains, neighbors)
 
+
+def encaixa(var1Tupple, var2Tupple):
+    # Canos que encaixam tem de estar virados um para o outro
+    (cano1, color1) = var1Tupple
+    (cano2, color2) = var2Tupple
+    # Pontas nunca encaixam uma na outra
+    if len(cano1) == 1 and len(cano2) == 1:
+        return False
+    # Canos verticais e horizontais nunca encaixam um no outro
+    if( cano1 in VERTICAIS and cano2 in HORIZONTAIS or cano1 in HORIZONTAIS and cano2 in VERTICAIS ):
+        return False
+    
+    # cotovelos encaixam em canos que estao virados para o lado oposto ou nos seus correspondentes horizontais ou verticais
+    if( (cano1 in COTOVELOS_DIREITA and cano2 in COTOVELOS_ESQUERDA + HORIZONTAIS) or 
+         cano1 in COTOVELOS_ESQUERDA and cano2 in COTOVELOS_DIREITA + HORIZONTAIS):
+        return True
+    if( (cano1 in COTOVELOS_NORTE and cano2 in COTOVELOS_SUL + VERTICAIS) or 
+        (cano1 in COTOVELOS_SUL and cano2 in COTOVELOS_NORTE + VERTICAIS) ):
+        return True
+
+
+def contraint_function2(var1, var1Tupple, var2, var2Tupple):
+    """# Definicao das restricoes
+        - Canos que encaixam tem de ser da mesma cor
+        - Canos terminais nao podes estar adjacentes
+        - Canos que nao encaixam nao podem ter orientacoes ortogonais"""
+    if encaixa(var1Tupple, var2Tupple):
+        return true
+
 def CSP_numberlink( puzzle):
     variables, domains, neighbors = numberLinkParsePuzzle(puzzle)
     return CSP(variables, domains, neighbors, constraint_function)
 
+"""
 try:
     puzzle=[['.','.','.','.','.','.'],
         ['.','.','.','.','.','.'],
@@ -374,8 +406,19 @@ try:
         ['.','.','.','.', 2 ,'.'],
         [ 2 , 1 , 3 ,'.','.', 1 ]]
     p = CSP_numberlink(puzzle)
+
+    p = CSP_numberlink(puzzle)
+    
+    # Removing  ('ne', 2) from V_3_5 [('ne', 2)] because of  V_3_4 and  [('ns', 1), ('ns', 2)]
+    print(p.constraints('V_3_5',('ne', 2),'V_3_4',('ns', 1)))
+    print(p.constraints('V_3_5',('ne', 2),'V_3_4',('ns', 2)))
+
     z=AC3(p)
+
     for v in sorted(p.variables):
         print(v,':',sorted(z.curr_domains[v]))
 except Exception as e:
     print(repr(e))
+
+
+"""

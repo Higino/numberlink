@@ -191,7 +191,7 @@ def AC3(csp, queue=None, removals=None, verbose = False):
             
             if (verbose):
                 print("-------Not consistent - Revise")        
-                print("-------Updated Current Domains = ", csp.curr_domains)
+                print("-------Updated Current Domains = ", csp.curr_domains[Xi])
                 print("-------Updated Set of Arcs to Check = ", queue)
         elif(verbose):
                 print("-------Consistent") 
@@ -210,7 +210,10 @@ def revise(csp, Xi, Xj, removals):
     for x in csp.curr_domains[Xi][:]:
         # If Xi=x conflicts with Xj=y for every possible y, eliminate Xi=x
         if all(not csp.constraints(Xi, x, Xj, y) for y in csp.curr_domains[Xj]):
+            print("Removing ", x, "from", Xi, csp.curr_domains[Xi], "because of ", Xj, "and ", csp.curr_domains[Xj])
             csp.prune(Xi, x, removals)
+            if not csp.curr_domains[Xi] : 
+                print("Xi = ", Xi)
             revised = True
     return revised
 
